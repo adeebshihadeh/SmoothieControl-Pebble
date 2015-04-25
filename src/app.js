@@ -114,6 +114,10 @@ jogging_window.on("click", "down", function(){
   send_command("G91 G0 " + currentAxis + -(joggingIncrements[joggingIncrement]) + " F" + feedrate+ " G90");
 });
 
+jogging_window.on("longClick", "select", function(){
+  send_command("G28 " + currentAxis + "0");
+});
+
 function send_command(command){
   console.log("sending " + command);
   ajax(
