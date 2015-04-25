@@ -2,6 +2,11 @@
 
 var UI = require("ui");
 var Vector2 = require("vector2");
+var Settings = require("settings");
+
+var crrentAxis;
+var joggingIncrements = ["0.1", "1", "10", "100"];
+var joggingIncrement = joggingIncrements[1];
 
 var main_menu = new UI.Menu({
   sections: [{
@@ -22,34 +27,56 @@ var main_menu = new UI.Menu({
   }]
 });
 
+var jogging_window = new UI.Window();
+
+var jogging_axis = new UI.Text({
+  position: new Vector2(0, 0),
+  size: new Vector2(144, 168),
+  font: 'gothic-28'
+});
+var jogging_increment = new UI.Text({
+  position: new Vector2(42, 68),
+  size: new Vector2(144, 168),
+  font: 'gothic-18-bold',
+  text: "Increment: " + joggingIncrement
+});
+jogging_window.add(jogging_axis);
+jogging_window.add(jogging_increment);
+
 main_menu.show();
 
 main_menu.on("select", function(e) {
-  var jogging_card = new UI.Card({
-    title: "Jogging",
-    scrollable: false
-  });
-  
   switch(e.itemIndex){
     case 0:
       break;
     case 1:
       // X axis
-      jogging_card.title("X Axis");
-      jogging_card.show();
+      switchAxis("X");
       break;
     case 2:
       // Y axis
-      jogging_card.title("Y Axis");
-      jogging_card.show();
+      switchAxis("Y");
       break;
     case 3:
       // Z axis
-      jogging_card.title("Z Axis");
-      jogging_card.show();
+      switchAxis("Z");
       break;
     default:
-      jogging_card.show();
+      jogging_window.show();
       break;
   }
+});
+
+function switchAxis(axis){
+  crrentAxis = axis;
+  jogging_axis.text(axis + " Axis");
+  jogging_window.show();
+}
+
+jogging_window.on("click", "select", function(){
+  joggingIncrement++;
+  if(joggingIncrement >= joggingIncrements.length){
+    joggingIncrement = 0;
+  }
+  jogging_increment.text("Increment: " + joggingIncrements[joggingIncrement].toString());
 });
