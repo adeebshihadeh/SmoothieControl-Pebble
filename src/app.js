@@ -2,10 +2,9 @@
 
 var UI = require("ui");
 var Vector2 = require("vector2");
-var Settings = require("settings");
 var ajax = require("ajax");
 
-var smoothieIP = "192.168.1.120"
+var smoothieIP = "192.168.1.120";
 var currentAxis;
 var joggingIncrements = ["0.1", "1", "10", "100"];
 var joggingIncrement = joggingIncrements[1];
@@ -25,6 +24,12 @@ var main_menu = new UI.Menu({
     }, {
       title: "Z axis",
       subtitle: "Jog the Z axis"
+    }, {
+      title: "Home all",
+      subtitle: "Home all axes (XYZ)"
+    }, {
+      title: "Help",
+      subtitle: "List of commands"
     }]
   }]
 });
@@ -34,23 +39,29 @@ var jogging_window = new UI.Window();
 var jogging_axis = new UI.Text({
   position: new Vector2(0, 0),
   size: new Vector2(144, 168),
-  font: 'gothic-28'
+  font: "gothic-28"
 });
 var jogging_increment = new UI.Text({
   position: new Vector2(42, 68),
   size: new Vector2(144, 168),
-  font: 'gothic-18-bold',
+  font: "gothic-18-bold",
   text: "Increment: " + joggingIncrement
 });
 var jogging_negative = new UI.Text({
   position: new Vector2(115, 115),
   size: new Vector2(144, 168),
-  font: 'gothic-18-bold'
+  font: "gothic-18-bold"
 });
 var jogging_positive = new UI.Text({
   position: new Vector2(115, 5),
   size: new Vector2(144, 168),
-  font: 'gothic-18-bold'
+  font: "gothic-18-bold"
+});
+
+var help_window = new UI.Card({
+  title: "Help",
+  subtitle: "Things to note",
+  body: "Home by choosing an axis then long-clicking the select button"
 });
 
 jogging_window.add(jogging_axis);
@@ -75,6 +86,13 @@ main_menu.on("select", function(e) {
     case 3:
       // Z axis
       switchAxis("Z");
+      break;
+    case 4:
+      send_command("G28");
+      break;
+    case 5:
+      // Help
+      help_window.show();
       break;
     default:
       jogging_window.show();
