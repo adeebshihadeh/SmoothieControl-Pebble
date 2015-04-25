@@ -1,7 +1,7 @@
 // SmoothieControl - an app for jogging the axes on your Smoothieware powered machine
 
-var UI = require('ui');
-var Vector2 = require('vector2');
+var UI = require("ui");
+var Vector2 = require("vector2");
 
 var main_menu = new UI.Menu({
   sections: [{
@@ -24,7 +24,7 @@ var main_menu = new UI.Menu({
 
 main_menu.show();
 
-main_menu.on('select', function(e) {
+main_menu.on("select", function(e) {
   var jogging_card = new UI.Card({
     title: "Jogging",
     scrollable: false
