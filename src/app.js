@@ -37,6 +37,40 @@ var main_menu = new UI.Menu({
   }]
 });
 
+main_menu.on("select", function(e) {
+  switch(e.itemIndex){
+    case 0:
+      break;
+    case 1:
+      // X axis
+      switchAxis("X");
+      break;
+    case 2:
+      // Y axis
+      switchAxis("Y");
+      break;
+    case 3:
+      // Z axis
+      switchAxis("Z");
+      break;
+    case 4:
+      // Home all axes
+      send_command("G28");
+      break;
+    case 5:
+      // Shortcuts menu
+      shortcuts_menu.show();
+      break;
+    case 6:
+      // Help
+      help_window.show();
+      break;
+    default:
+      jogging_window.show();
+      break;
+  }
+});
+
 var shortcuts_menu = new UI.Menu({
   sections: [{
     items: [{
@@ -46,8 +80,32 @@ var shortcuts_menu = new UI.Menu({
     }, {
       title: "Motors off",
       subtitle: "Turn the motors off"
+    }, {
+      title: "Fans on",
+      subtitle: "Turn the fans on"
+    }, {
+      title: "Fans off",
+      subtitle: "Turn the fans off"
     }]
   }]
+});
+
+shortcuts_menu.on("select", function(e) {
+  switch(e.itemIndex){
+    case 0:
+      break;
+    case 1:
+      // Motors off
+      send_command("M18");
+      break;
+    case 2:
+      // Fans on
+      send_command("M106");
+      break;
+    case 3:
+      send_command("M107");
+      break;
+  }
 });
 
 var jogging_window = new UI.Window();
@@ -87,40 +145,6 @@ jogging_window.add(jogging_positive);
 
 main_menu.show();
 
-main_menu.on("select", function(e) {
-  switch(e.itemIndex){
-    case 0:
-      break;
-    case 1:
-      // X axis
-      switchAxis("X");
-      break;
-    case 2:
-      // Y axis
-      switchAxis("Y");
-      break;
-    case 3:
-      // Z axis
-      switchAxis("Z");
-      break;
-    case 4:
-      // Home all axes
-      send_command("G28");
-      break;
-    case 5:
-      // Shortcuts menu
-      shortcuts_menu.show();
-      break;
-    case 6:
-      // Help
-      help_window.show();
-      break;
-    default:
-      jogging_window.show();
-      break;
-  }
-});
-
 function switchAxis(axis){
   currentAxis = axis;
   jogging_axis.text(axis + " Axis");
@@ -155,17 +179,6 @@ jogging_window.on("click", "down", function(){
 
 jogging_window.on("longClick", "select", function(){
   send_command("G28 " + currentAxis + "0");
-});
-
-shortcuts_menu.on("select", function(e) {
-  switch(e.itemIndex){
-    case 0:
-      break;
-    case 1:
-      // Motors off
-      send_command("M18");
-      break;
-  }
 });
 
 function send_command(command){
