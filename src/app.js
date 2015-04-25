@@ -87,7 +87,7 @@ function switchAxis(axis){
   jogging_axis.text(axis + " Axis");
   jogging_window.show();
   jogging_negative.text("-"+axis);
-  jogging_positive.text("+"+axis)
+  jogging_positive.text("+"+axis);
 }
 
 jogging_window.on("click", "select", function(){
