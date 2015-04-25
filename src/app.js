@@ -28,8 +28,24 @@ var main_menu = new UI.Menu({
       title: "Home all",
       subtitle: "Home all axes (XYZ)"
     }, {
+      title: "Shortcuts",
+      subtitle: "List of quick commands"
+    }, {
       title: "Help",
       subtitle: "List of commands"
+    }]
+  }]
+});
+
+var shortcuts_menu = new UI.Menu({
+  sections: [{
+    items: [{
+      title: "Shortcuts",
+      icon: "images/menu_icon.png",
+      subtitle: "Choose a function"
+    }, {
+      title: "Motors off",
+      subtitle: "Turn the motors off"
     }]
   }]
 });
@@ -88,9 +104,14 @@ main_menu.on("select", function(e) {
       switchAxis("Z");
       break;
     case 4:
+      // Home all axes
       send_command("G28");
       break;
     case 5:
+      // Shortcuts menu
+      shortcuts_menu.show();
+      break;
+    case 6:
       // Help
       help_window.show();
       break;
@@ -134,6 +155,17 @@ jogging_window.on("click", "down", function(){
 
 jogging_window.on("longClick", "select", function(){
   send_command("G28 " + currentAxis + "0");
+});
+
+shortcuts_menu.on("select", function(e) {
+  switch(e.itemIndex){
+    case 0:
+      break;
+    case 1:
+      // Motors off
+      send_command("M18");
+      break;
+  }
 });
 
 function send_command(command){
