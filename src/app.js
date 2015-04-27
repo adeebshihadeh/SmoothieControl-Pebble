@@ -2,18 +2,30 @@
 
 var UI = require("ui");
 var Vector2 = require("vector2");
+var Settings = require("settings");
 var ajax = require("ajax");
 
-var smoothieIP = "192.168.1.120";
+var ipAddress = Settings.option("ipAddress");
 var currentAxis;
 var joggingIncrements = ["0.1", "1", "10", "100"];
 var joggingIncrement = joggingIncrements[1];
+
+Settings.config(
+  { url: "http://quillford.github.io/pebble-configs/SmoothieControl-config.html"},
+  function(e){
+    console.log("opening settings");
+  },
+  function(e){
+    console.log("closed settings");
+    console.log(Settings.option("ipAddress"));
+    ipAddress = Settings.option("ipAddress");
+  }
+);
 
 var main_menu = new UI.Menu({
   sections: [{
     items: [{
       title: "SmoothieControl",
-      icon: "images/menu_icon.png",
       subtitle: "Choose a function"
     }, {
       title: "X axis",
@@ -185,16 +197,19 @@ function send_command(command){
   console.log("sending " + command);
   ajax(
   {
-    url: "http://" + smoothieIP + "/command",
+    url: "http://" + ipAddress + "/command",
     method: "post",
     type: "text",
+    async: true,
     data: command + "\n"
   },
   function(data, status, request) {
     console.log("Successfully sent command");
   },
   function(error, status, request) {
-    console.log("Request to smoothie failed");
+    console.log("Request to the printer failed");
+    console.log("Status: " + status);
+    console.log("Error: " + error);
   }
 );
 }
