@@ -1,5 +1,5 @@
 # SmoothieControl-Pebble
-a Pebble watch app for controlling your smoothie powered machine
+a Pebble watch app for controlling your [smoothie](https://github.com/Smoothieware/Smoothieware) powered machine
 
 # Downloading
 
@@ -8,3 +8,13 @@ Download by going [here](https://apps.getpebble.com/applications/553dbc0dbdf9b3a
 <a href="https://apps.getpebble.com/applications/553dbc0dbdf9b3ae8c000025">
   <img src="http://pblweb.com/badge/553dbc0dbdf9b3ae8c000025/orange/medium/" alt="SmoothieControl is available on the Pebble appstore" />
 </a>
+
+# Smoothie config
+
+You must have networking enabled in your config.
+
+```
+network.enable                               true            # enable the ethernet network services
+```
+
+Also, see [this](http://smoothieware.org/network) Smoothieware wiki article.
